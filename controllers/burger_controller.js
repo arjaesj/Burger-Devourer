@@ -2,45 +2,44 @@ var express = require("express");
 
 var router = express.Router();
 
-// Import the model to use its database functions.
-var cat = require("../models/burger");
+// Import the model to use its database functions
 const burger = require("../models/burger");
 
 // Route to select all burger
-router.get("/burger", function(req, res) {
-    burger.all(function(data) {
+router.get("/burgers", function(request, response) {
+    burger.selectAll(function(data) {
         var handlebarsObject = {
             burgers: data
         };
         console.log(handlebarsObject);
-        res.render("index", handlebarsObject);
+        response.render("index", handlebarsObject);
     });
 });
 
 //   Route to create burger
-router.post("/api/burgers", function(req, res) {
-    burger.create(["burger_name", "devoured"], [req.body.name, req.body.devoured], function(result) {
+router.post("/api/burgers", function(request, response) {
+    burger.insertOne(["burger_name", "devoured"], [request.body.name, request.body.devoured], function(result) {
         // Send back the ID of the new quote
-        res.json({ id: result.insertId });
+        response.json({ id: result.insertId });
     });
 });
 
 //   Route to update burger
-router.put("/api/burgers/:id", function(req, res) {
-    var condition = "id = " + req.params.id;
+router.put("/api/burgers/:id", function(request, response) {
+    var condition = "id = " + request.params.id;
 
     console.log("condition", condition);
 
-    burger.update({
-            devoured: req.body.devoured
+    burger.updateOne({
+            devoured: request.body.devoured
         },
         condition,
         function(result) {
             if (result.changedRows === 0) {
                 // If no rows were changed, then the ID must not exist, so 404
-                return res.status(404).end();
+                return response.status(404).end();
             }
-            res.status(200).end();
+            response.status(200).end();
 
         }
     );
