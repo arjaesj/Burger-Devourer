@@ -1,14 +1,6 @@
 // Import MySQL connection.
 var connection = require("../config/connection");
 
-function printQuestionMarks(num) {
-    var array = [];
-    for (var i = 0; i < num; i++) {
-        array.push("?");
-    };
-    return array.toString();
-};
-
 // Helper function to convert object key/value pairs to SQL syntax
 function objToSql(object) {
     var array = [];
@@ -29,55 +21,53 @@ function objToSql(object) {
     };
 
     // translate array of strings to a single comma-separated string
-    return arr.toString();
+    return array.toString();
 }
 
 // ORM with methods as keys to control the model.
 var orm = {
-    selectAll: function (tableInput, callback) {
+    selectAll: function(tableInput, callback) {
         var queryString = "SELECT * FROM " + tableInput + ";";
-        connection.query(queryString, function (error, result) {
+        connection.query(queryString, function(error, result) {
             if (error) {
                 throw error;
             }
             callback(result);
         });
     },
-    insertOne: function (table, columns, values, callback) {
+    insertOne: function(table, column, values, callback) {
         var queryString = "INSERT INTO " + table;
 
         queryString += " (";
-        queryString += columns.toString();
+        queryString += column.toString();
         queryString += ") ";
-        queryString += "VALUES (";
-        queryString += printQuestionMarks(values.length);
-        queryString += ") ";
+        queryString += "VALUES (?)";
+
 
         console.log(queryString);
 
-        connection.query(queryString, vals, function (error, result) {
+        connection.query(queryString, values, function(error, result) {
             if (error) {
                 throw error;
             }
-
             callback(result);
         });
     },
-    updateOne: function (table, objColVals, condition, callback) {
+    updateOne: function(table, objColVals, condition, callback) {
         var queryString = "UPDATE " + table;
 
         queryString += " SET ";
         queryString += objToSql(objColVals);
         queryString += " WHERE ";
         queryString += condition;
-    
+
         console.log(queryString);
         connection.query(queryString, function(error, result) {
-          if (error) {
-            throw error;
-          }
-    
-          callback(result);
+            if (error) {
+                throw error;
+            }
+
+            callback(result);
         });
     }
 };
