@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/arjaesj/Burger-Devourer#readme",
   "dependencies": {
+    "bootswatch": "^4.5.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-handlebars": "^5.1.0",

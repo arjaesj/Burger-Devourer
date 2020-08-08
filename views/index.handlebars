@@ -1,49 +1,52 @@
-<main style="background-color: lightgoldenrodyellow;">
-<div class="row">
-<div class="col-md-12 jumbotron">
-<h1 class="title" style="text-align: center;">EAT The Burger</h1>
-<p class="description" style="text-align: center;">create burgers and eat em!</p>
-{{!-- <img class="burger-img" src="/assets/img/burger.png" alt="burgerpic"> --}}
-</div>
-</div>
-
-
-<div class="row">
-    <div class="col-sm-5 not-eaten" style="background-color: lightblue; border:lightgoldenrodyellow; border-radius:5px; padding:10px; margin-left: 10%;">
-        <h3 class="heading">Burgers to Eat</h3>
-    <ul>
-        {{#each burgers}}
-        {{#unless devoured}}   
-        {{> burgers/burger-block neweat=true}}
-        {{/unless}}
-        {{/each}}
-    </ul>
-   </div>
-   <div class="col-sm-5 devoured"style="background-color: lightgreen; border:lightgoldenrodyellow; border-radius:5px; padding:10px;">
-    <h3 class="heading">Devoured!</h3>
-    <ul>
-        {{#each burgers}}
-        {{#if devoured}}
-         <li>{{burger_name}}</li>
-        {{/if}}
-        {{/each}}
-    </ul>
+<main class="container">
+  <div class="row">
+    <div class="col-md-12 jumbotron">
+      <h1 class="display-3">Burger Devourer</h1>
+      <p class="lead">This is a simple restaurant app that lets users input the names of burgers they'd like to eat.</p>
+      <hr class="my-4">
+      <p>Enter a new burger in the form below and click the "Get in mah belly!" button to devour it. You may click the
+        "Ugh! Yuck! Put it back!" button if you don't like it to return the burger.</p>
     </div>
+
+    <div class="row">
+      <div class="col-sm-6 to-devour">
+        <h3 class="heading">Burgers to devour:</h3>
+        <ol class="list-group">
+          {{#each burgers}}
+          {{#unless devoured}}
+          {{> burgers/burger-block devouredburger=true}}
+          {{/unless}}
+          {{/each}}
+        </ol>
+      </div>
+
+      <div class="col-sm-6 devoured">
+        <h3 class="heading">Burgers devoured:</h3>
+        <ol class="list-group">
+          {{#each burgers}}
+          {{#if devoured}}
+          {{> burgers/returnburger-block devouredburger=false}}
+          {{/if}}
+          {{/each}}
+        </ol>
+      </div>
     </div>
-  
 
- 
-<div class="row">
-<form class="col-sm-5 create-form">
-  <div class="form-group">
-    <h2 for="burgerInput">Add a Burger!</h2>
-    <input type="text" class="form-control" id="burgerInput" name="name" aria-describedby="emailHelp" placeholder="Enter Burger">
-    <small id="burger-explanation" class="form-text text-muted">Choose whether you want your burger eaten</small>
-      <input type="radio" name="devoured" value="0" checked> Not Eaten!<br>
-    <input type="radio" name="devoured" value="1"> Devoured
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-</div>
+    <div class="row form">
+      <form class="create-form">
+        <fieldset>
+          <h2 for="burger-name">Enter a new Burger here:</h2>
 
- </main> 
+          <div class="form-group">
+            <label class="col-form-label col-form-label-lg" for="burger-name">What's the name of your new
+              Burger?</label>
+            <input class="form-control form-control-lg" type="text" placeholder="new Burger name" id="burger-name"
+              name="name">
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg">Add the Burger</button>
+        </fieldset>
+      </form>
+    </div>
+
+</main>
