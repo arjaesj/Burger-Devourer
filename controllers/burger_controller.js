@@ -6,7 +6,7 @@ var router = express.Router();
 const burger = require("../models/burger");
 
 // Route to select all burger
-router.get("/burgers", function(request, response) {
+router.get("/", function(request, response) {
     burger.selectAll(function(data) {
         var handlebarsObject = {
             burgers: data
